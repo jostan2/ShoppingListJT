@@ -42,16 +42,16 @@ namespace ShoppingListJT
                 while (true)
                 {
                     Console.WriteLine("Please enter the number of the item you would like to add to your cart 1-8. Or, if you are done shopping enter '0''.");  //allow user to add to orders
-                    int userInput = Convert.ToInt32(Console.ReadLine());
+                    int userInput = (Convert.ToInt32(Console.ReadLine())-1);
                     Console.WriteLine();
 
 
-                    if (userInput < 0 || userInput > 8) //filter user input for items outside of the range.
+                    if (userInput < -1 || userInput > 7) //filter user input for items outside of the range.
                     {
                         Console.WriteLine("Error, the choice you have selected does not exist. Please try again."); //return to question
                         Console.WriteLine();
                     }
-                    else if (userInput == 0)
+                    else if (userInput == -1)
                     {
                         Console.WriteLine("Beginning checkout:");
                         Console.WriteLine();
@@ -59,31 +59,30 @@ namespace ShoppingListJT
                     }
                     else
                     {
-                        cart.Add(userInput); //adds most recent line of user input to 'cart' list.
+                        cart.Add(userInput); //adds most recent line of user input to 'cart' list. (-1 to offset the index starting at 0)
                
                         Console.WriteLine("In shopping cart:");
                         foreach (int carts in cart) //loop to display current items in cart. (currently displays integers related to list, not keys related to dictonary)
                         {
-                            Console.Write($"{carts}, ");
+                            Console.Write($"{shoppingList.ElementAt(carts).Key}, "); // writing the keys corrosponding to the index of the list 'carts'
                         }
                         Console.WriteLine();
                         Console.WriteLine();
                     }
                     
                 }
-                Console.WriteLine();
                 Console.WriteLine("The items in your cart are:");
-             
                 
                 foreach (int carts in cart)    //display all ordered items w/ prices (displaying 
                 {
-                    Console.Write($"{shoppingList.ElementAt(carts).Key}, "); //translates 'cart' list to keys/names from 'shoppingList' dictonary 
-                    Console.Write($"{shoppingList.ElementAt(carts).Value}, "); // translates 'cart' list to values/prices from 'shoppingList' dictonary
+                    Console.Write($"{shoppingList.ElementAt(carts).Key}, $"); //translates 'cart' list to keys from 'shoppingList' dictonary 
+                    Console.Write($"{shoppingList.ElementAt(carts).Value}, "); // translates 'cart' list to values from 'shoppingList' dictonary
 
                     //.ElementAt is used to return the value at a specific index, specificly the indexes from the list)
+                }
 
-                    Console.WriteLine();
-                }        
+                Console.WriteLine();
+                Console.WriteLine();
 
                 double sum = 0; //declaring double before foreachloop.
                 foreach (int carts in cart) //sum of values from the dictionary
@@ -91,6 +90,7 @@ namespace ShoppingListJT
                     sum += shoppingList.ElementAt(carts).Value;
                 }
                 Console.WriteLine("Your total bill is ${0}", sum); //sum of all items
+                Console.WriteLine();
 
                 start = restart(); //prompt to restart or quit
                 Console.WriteLine();
